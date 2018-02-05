@@ -1,0 +1,131 @@
+
+skip to main content
+My Home
+CSC-401-U015-2018SP Rich Internet Applications-GoodmanSelect a course...
+Message alerts
+
+Update alerts
+
+Subscription alerts
+
+ Tuyen Do
+Navigation
+CSC-401-U015-2018SP Rich Internet Applications-Goodman
+CSC-401-U015-2018SP Rich Internet Applications-Goodman
+Course Home
+
+Content
+
+Assessments
+
+Communications
+
+Resources
+Breadcrumb:
+Table of Contents Assignments HtmlLab
+	HtmlLab
+Word Document
+ View content in new window
+CSC 401 - Rich Internet Applications
+HTML Lab
+
+Instructions: Create a site for a High School Robot Competition. Turn in to the dropbox as a zip file. We will style it later!
+
+Requirements
+HTML5 only (Images and CSS are allowed but not required yet.) No Javascript)
+
+All pages must validate at HYPERLINK "http://www.google.com/url?q=http%3A%2F%2Fvalidator.w3.org&sa=D&sntz=1&usg=AFQjCNFZGk6GGc2Xyu8BV8qTWB4AaVSTeQ" validator.w3.org (warnings are allowed)
+
+Required pages (files named as noted)
+Home (index.html) describing the tournament (who, what, where, when, why)
+
+Who:
+
+What:
+
+Where:
+
+When
+
+Why:
+
+Registration (registration.html) [html form]
+
+Rules (rules.html) [html list]
+
+Required elements on each page (you must give element id as quoted)
+“main” which contains all other elements
+
+“header” containing tournament name, USD promo, and tournament date
+
+“content” containing the data specific to the page
+
+“sidebar” containing a listing of sponsors
+
+“nav” for navigating between the pages
+
+“footer” for contact and address information
+
+Required registration information (element name as quoted)
+indicate that all fields except phone are required. enforce it in html5 if you can
+
+team name ('tname')
+
+highschool (‘hsname’)
+
+team members [fieldset with 'captain','mem1','mem2']
+
+‘address’
+
+‘city’
+
+‘state’ [select or something better]
+
+‘phone’
+
+‘events’ [checkbox]
+
+'comment' [textarea]
+
+Suggested events
+Sprint
+
+Battle
+
+Maze
+
+Suggested rules
+General
+
+Team Members must attend the high school
+
+No more than 3 team members
+
+Robots must be pre-programmed
+
+No programming during the contest
+
+Physical changes (rewiring) are legal during contest
+
+Competitors who are not ready at their start time are disqualified
+
+Robot
+
+size limit
+
+self powered by battery
+
+No gasoline engines
+
+No Solar Power
+
+Event Rules -- secret!
+
+Suggested fictional sponsors
+Starla’s Gears
+
+Zubaz
+
+Tupperware
+
+American Friends Society
