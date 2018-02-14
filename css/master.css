@@ -5,6 +5,7 @@ nav{
   overflow: hidden;
 }
 nav a{
+  display: block;
   float: left;
   color: black;
   text-align: center;
@@ -22,25 +23,39 @@ nav a:active{
 }
 #logo{
   display: block;
-  margin: 10px auto 10px auto;
+  margin: 10px auto 10px 20%;
 }
 header{
-  overflow: auto;
-  text-align: center;
+  overflow:auto;
+  text-align: left;
 }
 header h1{
+  display: block;
   font-size: 300%;
   color: red;
+  margin-left: 10%;
 }
 header p{
   font-weight: bold;
+  margin-left: 30%;
+}
+#content{
+  float: center;
+  background-color: #A1E566;
+  width: 80%;
+}
+aside{
+  position:fixed;
+  background-color: #369b9b;
+  width: 18%;
+  float:right;
+  right: 8px;
+  top:0px;
+  bottom: 0px;
+  overflow-x: hidden;
 }
 aside ul{
-  background-color: #369b9b;
   list-style-type: none;
-  height: 100%;
-  width: 20%;
-  float : left;
 }
 aside li{
   text-decoration: none;
@@ -48,7 +63,28 @@ aside li{
   color: black;
   padding: 10px;
 }
+footer{
+  position:static;
+  background-color: #66E3E5;
+  bottom: 8px;
+  height: 4%;
+  width: 100%;
+  display: block;
+}
+footer p{
+  text-align: center;
+}
 input[type=text]{
   width: 100%
 
+}
+input[type=submit]{
+  width: 100px;
+  display: block;
+  font-weight: bold;
+  margin: 10px auto 10px auto;
+}
+#rule p{
+  font-weight: bold;
+  font-size: 20px
 }
