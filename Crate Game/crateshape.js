@@ -28,55 +28,25 @@
 			}
 			b[r] = col;
 		}
+		b[targ.r][targ.c] = 1;
 		b[bobr][bobc] = 0;
-
-		function getWeight(r,c){
-			var weight = 0;
-			if(typeof[b[r][c]]==='number')
-				while(c<n && r < n && c >= 0 && r>=0){
-					weight += b[r][c];
-					switch (dir) {
-						case 0: c++;
-							break;
-						case 1: r++;
-							break;
-						case 2: c--;
-							break;
-						default: r--;
-					}
-			}
-			return weight;
-		}
 
 		function legalRC(r,c) {
 			return r>=0, c>=0, r<n, c<n;
 		}
 
 		function isWin() {
-			return targ.r === bobr && targ.c === bobc;//Use the origin instead of current value
+			return targ.r === n-1 && targ.c === origin;//Use the origin instead of current value
 		}
 
-		function canMove(r,c) {
-			var overWeight = getWeight(r, c)>3;
-			var boundLimit;
-			while(r+rDirec[dir]!=0, c+cDirec[dir]!=0){
-				r += rDirec[dir];
-				c += cDirec[dir];
-				if(r<0 || c<0 || r===n || c===n){
-					boundLimit = false;
-					break;
-				}
-			}
-			return !overWeight && boundLimit;
-		}
-
-		function count(dr, dc, maxWt) {
-			var r = this.bobr + dr; var c = this.bobc + dc;
+		function count(dr, dc, wtLimit) {
+			var r = bobr + dr;
+			var c = bobc + dc;
 			var tot=0;  //total push weight
 			var q = 0;  //num crates being pushed
 			while( legalRC(r,c) ){
 					tot = tot +b[r][c];
-					if(tot>maxWt) return -1;
+					if(tot>wtLimit) return -1;
 					if(b[r][c]===0) return q;
 					q = q+1;
 					r=r+dr; c=c+dc;
@@ -87,6 +57,7 @@
 		Board.prototype.move = function (command) {
 			var ret = this.getData();
 			ret.kind = "illegal";
+			if(this.getWon()) return ret;
 
 			switch (command) {
 				case 119: var tempDir = 0; //Up - w
@@ -101,26 +72,25 @@
 					return ret;
 			}
 
-			if(canMove(bobr, bobc, dir) || isWin()) return ret;
-			if(tempDir===this.dir || (4+tempDir-this.dir) %4 ===2){
-					var maxWt = (tempDir===this.dir) ? 3 : 0;    //can push crates backing up
-					var ct = count(rDirec[tempDir],cDirec[tempDir],maxWt);   //returns 0 if just bob, up to 3 for bob&3 crates, -1
-					if(ct<0) return {"illegal":true};
-					var amt = ct;
-					while(ct>=0){
-							var r = this.bobr+ct*this.rDirec[tempDir];
-							var c = this.bobr+ct*this.rDirec[tempDir];
-							if(r===targ.r && c===targ.c){
-								targ.r += this.rDirec[tempDir];
-								targ.c += this.cDirec[tempDir];
+			if( tempDir === dir || (4 + tempDir - dir) % 4 === 2){
+					var wtLimit = (tempDir === dir) ? 3 : 0;    //can push crates backing up
+					var ct = count(rDirec[tempDir], cDirec[tempDir],wtLimit);   //returns 0 if just bob, up to 3 for bob&3 crates, -1
+					if(ct < 0) return {"illegal":true};
+					var amt = ct;//Do what???
+					while(ct >= 0){
+							var r = bobr + ct * rDirec[tempDir];
+							var c = bobc + ct * cDirec[tempDir];
+							if(r === targ.r && c === targ.c){
+								targ.r += rDirec[tempDir];
+								targ.c += cDirec[tempDir];
 							}
-							b[r+this.rDirec[tempDir]][c+this.cDirec[tempDir]] = b[r][c];
-							ct -= 1;
+							b[r + rDirec[tempDir]][c + cDirec[tempDir]] = b[r][c];
+							ct--;
 					}
-					this.bobr += this.rDirec[tempDir]; this.bobc += this.cDirec[tempDir];
-					score += 1;
-					if(targ.r===n-1 && targ.c===startC) state = 1; //victory
-					if(d===this.dir){
+					bobr += rDirec[tempDir]; bobc += cDirec[tempDir];
+					score ++;
+					if(targ.r === n-1 && targ.c === origin) state = 1; //victory
+					if( tempDir === dir){
 							ret.kind = "push";
 							ret.amt = amt;
 							return ret;
@@ -129,8 +99,8 @@
 							return ret;
 					}
 			}else{
-					this.dir = tempDir;
-					score += 1;
+					dir = tempDir;
+					score ++;
 					ret.kind = "turn";
 					return ret;
 			}
@@ -170,6 +140,12 @@
         var key = ev.keyCode;
         var ret = brd.move(key);
         showBoard(brd);
+				if(brd.getWon()) {
+					var r = confirm("You Won! Do you want to play a new game");
+					if (r == true) {
+						location.reload();
+					}
+				}
     };
 		showBoard(brd);
 	};
