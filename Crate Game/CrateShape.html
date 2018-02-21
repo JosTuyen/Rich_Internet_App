@@ -5,9 +5,31 @@
 		<title>Crate Board!</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<style>
+			#content{
+				float: left;
+				position:fixed;
+				margin: 0;
+				font-size: 18px;
+			}
+		</style>
 	</head>
 	<body>
 		<h1 style="text-align:center">Crate Board</h1></div>
+		<p id="content">
+			<b>Rules:</b><br>
+			Push the target to the origin position of pusher.<br>
+			Press:  w :up	;	d :right ; s :down ; a :left ; x :explode<br>
+			One move or one turn costs 1 score<br>
+			One explode costs 100 scores<br>
+			The maximum weight which pusher can push is 3<br>
+			The target symbol and weight:<br>
+			A: 1 ; B: 2 ; C: 3<br>
+			The direction of pusher:<br>
+			^: North ; >: East ; v: South ; <: West<br>
+			You can only push the wages on your direction<br>
+		</p>
+		<h2 id="score" style="text-align:center"></h2>
 		<!-- <script src="crateboard2.js"></script> -->
 		<script src="crateshape.js"></script>
 		<h3 id="board" style="font-weight:bold; text-align:center"></h3>

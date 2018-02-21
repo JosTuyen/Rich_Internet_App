@@ -6,6 +6,7 @@
 		var state = 0;
 		var score = 0;
 		var dir = 0;
+		var targWt;
 		var rDirec = [-1,0,1,0];
 		var cDirec = [0,1,0,-1];
 		//Generate table size, position of target & bob
@@ -28,7 +29,7 @@
 			}
 			b[r] = col;
 		}
-		b[targ.r][targ.c] = 1;
+		targWt = b[targ.r][targ.c] = Math.floor(Math.random()*3)+1;
 		b[bobr][bobc] = 0;
 
 		function legalRC(r,c) {
@@ -60,6 +61,8 @@
 			if(this.getWon()) return ret;
 
 			switch (command) {
+				case 120: var tempDir = 4; //Explode - x
+					break;
 				case 119: var tempDir = 0; //Up - w
 					break;
 				case 100: var tempDir = 1; //Right - d
@@ -71,12 +74,20 @@
 				default:
 					return ret;
 			}
-
-			if( tempDir === dir || (4 + tempDir - dir) % 4 === 2){
+			if(tempDir === 4){
+				var r = bobr + rDirec[dir];
+				var c = bobc + cDirec[dir];
+				if(legalRC(r,c) && b[r][c] !== 0 && !(r===targ.r && c===targ.c)){
+					b[r][c] = 0;
+					score += 100;
+					ret.kind = "explode";
+					return ret;
+				}else {return ret;}
+			}
+			else if( tempDir === dir || (4 + tempDir - dir) % 4 === 2){
 					var wtLimit = (tempDir === dir) ? 3 : 0;    //can push crates backing up
-					var ct = count(rDirec[tempDir], cDirec[tempDir],wtLimit);   //returns 0 if just bob, up to 3 for bob&3 crates, -1
+					var ct = count(rDirec[tempDir], cDirec[tempDir],wtLimit);
 					if(ct < 0) return {"illegal":true};
-					var amt = ct;//Do what???
 					while(ct >= 0){
 							var r = bobr + ct * rDirec[tempDir];
 							var c = bobc + ct * cDirec[tempDir];
@@ -92,7 +103,6 @@
 					if(targ.r === n-1 && targ.c === origin) state = 1; //victory
 					if( tempDir === dir){
 							ret.kind = "push";
-							ret.amt = amt;
 							return ret;
 					}else{
 							ret.kind = "back";
@@ -112,40 +122,45 @@
 		Board.prototype.getScore = function (){ return score; };
 		Board.prototype.getData = function () {
 			return{"targ":targ, "bobc":bobc, "bobr":bobr, "n":n, "b":b, "dir":dir
-						 ,"origin":origin};
+						 ,"origin":origin, "targWt":targWt};
 		};
 	};
 //            =====================Show on the browser=======================
 	function showBoard(brd) {
 		var direction = ["^",">","v","<"];
+		var listTarg = ["A","B","C"];
+		var listWage = ["_","1","2","3"];
 		var viewText = "";
 		var data = brd.getData();
 		for(var r = 0; r < data.n; r++){
 			for(var c = 0; c < data.n; c++){
 				if(r === data.targ.r && c === data.targ.c)
-					viewText += "T  ";
+					viewText += listTarg[data.targWt-1]+"  ";
 				else if( r === data.bobr && c === data.bobc)
 					viewText += direction[data.dir]+"  ";
 				else
-					viewText += data.b[r][c]+"  ";
+					viewText += listWage[data.b[r][c]]+"  ";
 			}
 			viewText += "<br>";
 		}
 		document.getElementById("board").innerHTML = viewText;
+		document.getElementById("score").innerHTML = "Score: "+brd.getScore();
+
 	}
 
 	window.onload = function(){
 		var brd = new Board();
 		document.onkeypress =  function (ev){
+			if(brd.getWon()) {
+				var r = confirm("You Won!\nYour Score is "+brd.getScore()
+												+"\nDo you want to play a new game?");
+				if (r == true) {
+					location.reload();
+				}
+			}
         var key = ev.keyCode;
         var ret = brd.move(key);
         showBoard(brd);
-				if(brd.getWon()) {
-					var r = confirm("You Won! Do you want to play a new game");
-					if (r == true) {
-						location.reload();
-					}
-				}
     };
 		showBoard(brd);
 	};
