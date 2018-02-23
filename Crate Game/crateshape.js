@@ -137,7 +137,7 @@
 		var table = graphic.getContext("2d");
 		graphic.width = data.n*40;
 		graphic.height = data.n*40;
-		table.font = "20px Georgia";
+		table.font = "20px Courier";
 		table.lineWidth = 2;
 		for(var s = 1; s<=data.n; s++){
 			table.moveTo(s*40,0);
@@ -175,19 +175,19 @@
 				}
 			}
 		}
+		table.stroke();
 		//=================fillData===========================
-		table.fillStyle = "#994d00";
+		table.strokeStyle = "#6666ff";
 		for(var r = 0; r < data.n; r++){
 			for(var c = 0; c < data.n; c++){
 				if(r === data.targ.r && c === data.targ.c)
-					table.fillText(listTarg[data.targWt-1],40*c+13,40*r+27);
+					table.strokeText(listTarg[data.targWt-1],40*c+13,40*r+27);
 				else if( r === data.bobr && c === data.bobc)
-					table.fillText(direction[data.dir],40*c+13,40*r+27);
+					table.strokeText(direction[data.dir],40*c+13,40*r+27);
 				else
-					table.fillText(listWage[data.b[r][c]],40*c+13,40*r+27);
+					table.strokeText(listWage[data.b[r][c]],40*c+13,40*r+27);
 			}
 		}
-		table.stroke();
 
 		document.getElementById("score").innerHTML = "Score: "+brd.getScore();
 
