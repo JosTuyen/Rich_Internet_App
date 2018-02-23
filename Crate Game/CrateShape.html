@@ -7,10 +7,18 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<style>
 			#content{
+				position: fixed;
 				float: left;
-				position:fixed;
-				margin: 0;
+				max-width: 500px;
+				margin: 0px;
+				padding: 0px;
 				font-size: 18px;
+			}
+			#graphic{
+				float:right;
+				position:static;
+				margin: auto;
+				border:5px solid #330033;
 			}
 		</style>
 	</head>
@@ -32,6 +40,6 @@
 		<h2 id="score" style="text-align:center"></h2>
 		<!-- <script src="crateboard2.js"></script> -->
 		<script src="crateshape.js"></script>
-		<h3 id="board" style="font-weight:bold; text-align:center"></h3>
+		<canvas id="graphic"></canvas>
 	</body>
 </html>

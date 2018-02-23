@@ -129,21 +129,66 @@
 	function showBoard(brd) {
 		var direction = ["^",">","v","<"];
 		var listTarg = ["A","B","C"];
-		var listWage = ["_","1","2","3"];
+		var listWage = [" ","1","2","3"];
 		var viewText = "";
 		var data = brd.getData();
+		//==================drawTable================
+		var graphic = document.getElementById('graphic');
+		var table = graphic.getContext("2d");
+		graphic.width = data.n*40;
+		graphic.height = data.n*40;
+		table.font = "20px Georgia";
+		table.lineWidth = 2;
+		for(var s = 1; s<=data.n; s++){
+			table.moveTo(s*40,0);
+			table.lineTo(s*40,data.n*40);
+			table.moveTo(0,s*40);
+			table.lineTo(data.n*40,s*40);
+			table.stroke();
+		}
+		//=================fillColor==================
+		for(var r = 0; r < data.n; r++){
+			for(var c = 0; c < data.n; c++){
+				if(r === data.targ.r && c === data.targ.c){
+					table.fillStyle = "#33cc33";
+					table.fillRect(40*c,40*r,40*(c+1),40*(r+1));
+				}
+				else if( r === data.bobr && c === data.bobc){
+					table.fillStyle = "#80dfff";
+					table.fillRect(40*c,40*r,40*(c+1),40*(r+1));
+				}
+				else{
+					switch (data.b[r][c]) {
+						case 1:
+							table.fillStyle = "#d24dff";
+							break;
+						case 2:
+							table.fillStyle = "#9900cc";
+							break;
+						case 3:
+							table.fillStyle = "#39004d";
+							break;
+						default:
+							table.fillStyle = "#ebb3ff";
+					}
+					table.fillRect(40*c,40*r,40*(c+1),40*(r+1));
+				}
+			}
+		}
+		//=================fillData===========================
+		table.fillStyle = "#994d00";
 		for(var r = 0; r < data.n; r++){
 			for(var c = 0; c < data.n; c++){
 				if(r === data.targ.r && c === data.targ.c)
-					viewText += listTarg[data.targWt-1]+"  ";
+					table.fillText(listTarg[data.targWt-1],40*c+13,40*r+27);
 				else if( r === data.bobr && c === data.bobc)
-					viewText += direction[data.dir]+"  ";
+					table.fillText(direction[data.dir],40*c+13,40*r+27);
 				else
-					viewText += listWage[data.b[r][c]]+"  ";
+					table.fillText(listWage[data.b[r][c]],40*c+13,40*r+27);
 			}
-			viewText += "<br>";
 		}
-		document.getElementById("board").innerHTML = viewText;
+		table.stroke();
+
 		document.getElementById("score").innerHTML = "Score: "+brd.getScore();
 
 	}
