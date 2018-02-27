@@ -4,18 +4,15 @@
 		//tgt edge
 		//square content is weight :0,1,2,3 with p=0,2,1,1
 		var state = 0;
-		var score = 0;
-		var dir = 0;
-		var targWt;
+		var moves = 0;
 		var rDirec = [-1,0,1,0];
 		var cDirec = [0,1,0,-1];
 		//Generate table size, position of target & bob
 		var n = 8+Math.floor(Math.random()*5);
-		var targ = {"r":0, "c":0};
-		var bobc, bobr;
-		var origin;
-		bobr = n-1;
-		origin = bobc = Math.floor(Math.random()*(n-1));
+		var targ = {"r":0, "c":0, "wt":0};
+		var bob = {"r":0, "c":0, "dir":0, "origin":0};
+		bob.r = n-1;
+		bob.origin = bob.c = Math.floor(Math.random()*(n-1));
 		targ.c = Math.floor(Math.random()*(n-2)+1);
 		targ.r = Math.floor(Math.random()*(n-2)+1);
 		//Generate new board
@@ -29,20 +26,20 @@
 			}
 			b[r] = col;
 		}
-		targWt = b[targ.r][targ.c] = Math.floor(Math.random()*3)+1;
-		b[bobr][bobc] = 0;
+		targ.wt = b[targ.r][targ.c] = Math.floor(Math.random()*3)+1;
+		b[bob.r][bob.c] = 0;
 
 		function legalRC(r,c) {
 			return r>=0, c>=0, r<n, c<n;
 		}
 
 		function isWin() {
-			return targ.r === n-1 && targ.c === origin;//Use the origin instead of current value
+			return targ.r === n-1 && targ.c === bob.origin;//Use the origin instead of current value
 		}
 
 		function count(dr, dc, wtLimit) {
-			var r = bobr + dr;
-			var c = bobc + dc;
+			var r = bob.r + dr;
+			var c = bob.c + dc;
 			var tot=0;  //total push weight
 			var q = 0;  //num crates being pushed
 			while( legalRC(r,c) ){
@@ -75,22 +72,22 @@
 					return ret;
 			}
 			if(tempDir === 4){
-				var r = bobr + rDirec[dir];
-				var c = bobc + cDirec[dir];
+				var r = bob.r + rDirec[bob.dir];
+				var c = bob.c + cDirec[bob.dir];
 				if(legalRC(r,c) && b[r][c] !== 0 && !(r===targ.r && c===targ.c)){
 					b[r][c] = 0;
-					score += 100;
+					moves += 100;
 					ret.kind = "explode";
 					return ret;
 				}else {return ret;}
 			}
-			else if( tempDir === dir || (4 + tempDir - dir) % 4 === 2){
-					var wtLimit = (tempDir === dir) ? 3 : 0;    //can push crates backing up
+			else if( tempDir === bob.dir || (4 + tempDir - bob.dir) % 4 === 2){
+					var wtLimit = (tempDir === bob.dir) ? 3 : 0;    //can push crates backing up
 					var ct = count(rDirec[tempDir], cDirec[tempDir],wtLimit);
 					if(ct < 0) return {"illegal":true};
 					while(ct >= 0){
-							var r = bobr + ct * rDirec[tempDir];
-							var c = bobc + ct * cDirec[tempDir];
+							var r = bob.r + ct * rDirec[tempDir];
+							var c = bob.c + ct * cDirec[tempDir];
 							if(r === targ.r && c === targ.c){
 								targ.r += rDirec[tempDir];
 								targ.c += cDirec[tempDir];
@@ -98,10 +95,10 @@
 							b[r + rDirec[tempDir]][c + cDirec[tempDir]] = b[r][c];
 							ct--;
 					}
-					bobr += rDirec[tempDir]; bobc += cDirec[tempDir];
-					score ++;
-					if(targ.r === n-1 && targ.c === origin) state = 1; //victory
-					if( tempDir === dir){
+					bob.r += rDirec[tempDir]; bob.c += cDirec[tempDir];
+					moves ++;
+					if(targ.r === n-1 && targ.c === bob.origin) state = 1; //victory
+					if( tempDir === bob.dir){
 							ret.kind = "push";
 							return ret;
 					}else{
@@ -109,8 +106,8 @@
 							return ret;
 					}
 			}else{
-					dir = tempDir;
-					score ++;
+					bob.dir = tempDir;
+					moves ++;
 					ret.kind = "turn";
 					return ret;
 			}
@@ -119,10 +116,10 @@
 		Board.prototype.getWon = function () {
 			return state === 1;
 		};
-		Board.prototype.getScore = function (){ return score; };
+		Board.prototype.getMoves = function (){ return moves; };
 		Board.prototype.getData = function () {
-			return{"targ":targ, "bobc":bobc, "bobr":bobr, "n":n, "b":b, "dir":dir
-						 ,"origin":origin, "targWt":targWt};
+			return{"targ":targ, "bobc":bob.c, "bobr":bob.r, "n":n, "b":b, "dir":bob.dir
+						 ,"origin":bob.origin, "targWt":targ.wt};
 		};
 	};
 //            =====================Show on the browser=======================
@@ -189,15 +186,26 @@
 			}
 		}
 
-		document.getElementById("score").innerHTML = "Score: "+brd.getScore();
+		document.getElementById("moves").innerHTML = "Moves: "+brd.getMoves();
 
 	}
 
 	window.onload = function(){
 		var brd = new Board();
+		var start = true;
+		var t;
+		var count = 0;
 		document.onkeypress =  function (ev){
+			if(start){
+				timeCount();
+				start = false;
+			}
+			if(brd.getWon()) clearTimeout(t);
 			if(brd.getWon()) {
-				var r = confirm("You Won!\nYour Score is "+brd.getScore()
+				var r = confirm("You Won!\nYour moves is "+brd.getMoves()
+												+"\nYour time is "+ Math.floor(count / 3600) +
+												":" + checkTime(Math.floor(count / 60)) +
+												":" + checkTime(count % 60)
 												+"\nDo you want to play a new game?");
 				if (r == true) {
 					location.reload();
@@ -208,4 +216,21 @@
         showBoard(brd);
     };
 		showBoard(brd);
+		//Calculate time and showClock
+		function timeCount() {
+			count += 1;
+			var h = Math.floor(count / 3600);
+	    var m = Math.floor(count / 60);
+	    var s = count % 60;
+			m = checkTime(m);
+			s = checkTime(s);
+	    document.getElementById('txt').innerHTML =
+	    "Time: "+ h + ":" + m + ":" + s;
+			t = setTimeout(timeCount, 1000);
+		}
 	};
+// add zero in front of numbers < 10
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};
+    return i;
+}
