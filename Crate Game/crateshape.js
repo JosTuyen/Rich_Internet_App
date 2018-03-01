@@ -33,10 +33,6 @@
 			return r>=0, c>=0, r<n, c<n;
 		}
 
-		function isWin() {
-			return targ.r === n-1 && targ.c === bob.origin;//Use the origin instead of current value
-		}
-
 		function count(dr, dc, wtLimit) {
 			var r = bob.r + dr;
 			var c = bob.c + dc;
@@ -113,16 +109,14 @@
 			}
 		};
 		//Access methods
-		Board.prototype.getWon = function () {
-			return state === 1;
-		};
+		Board.prototype.getWon = function () { return state === 1; };
 		Board.prototype.getMoves = function (){ return moves; };
 		Board.prototype.getData = function () {
 			return{"targ":targ, "bobc":bob.c, "bobr":bob.r, "n":n, "b":b, "dir":bob.dir
 						 ,"origin":bob.origin, "targWt":targ.wt};
 		};
 	};
-//            =====================Show on the browser=======================
+//=====================Show on the browser=======================
 	function showBoard(brd) {
 		var direction = ["^",">","v","<"];
 		var listTarg = ["A","B","C"];
