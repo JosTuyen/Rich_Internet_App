@@ -5,6 +5,7 @@
 		//square content is weight :0,1,2,3 with p=0,2,1,1
 		var state = 0;
 		var moves = 0;
+		//bob direction Up - Right - Down - Left
 		var rDirec = [-1,0,1,0];
 		var cDirec = [0,1,0,-1];
 		//Generate table size, position of target & bob
@@ -118,11 +119,31 @@
 	};
 //=====================Show on the browser=======================
 	function showBoard(brd) {
-		var direction = ["^",">","v","<"];
-		var listTarg = ["A","B","C"];
-		var listWage = [" ","1","2","3"];
-		var viewText = "";
 		var data = brd.getData();
+		//=================importPicture==============
+		var zebra = new Image();
+		var croco = new Image();
+		var eleph_u = new Image();
+		var eleph_r = new Image();
+		var eleph_d = new Image();
+		var eleph_l = new Image();
+		var giraf = new Image();
+		var goril = new Image();
+		var pengu = new Image();
+		var snake = new Image();
+		zebra.src = '/Libraries/Pictures/zebra.png';
+		croco.src = '/Libraries/Pictures/crocodile.png';
+		eleph_u.src = '/Libraries/Pictures/elephant_u.png';
+		eleph_r.src = '/Libraries/Pictures/elephant_r.png';
+		eleph_d.src = '/Libraries/Pictures/elephant_d.png';
+		eleph_l.src = '/Libraries/Pictures/elephant_l.png';
+		giraf.src = '/Libraries/Pictures/giraffe.png';
+		goril.src = '/Libraries/Pictures/gorilla.png';
+		pengu.src = '/Libraries/Pictures/penguin.png';
+		snake.src = '/Libraries/Pictures/snake.png';
+		var listBob = [eleph_u, eleph_r, eleph_d, eleph_l];
+		var listWage = [snake, goril, croco];
+		var listTarg = ["", pengu, zebra, giraf];
 		//==================drawTable================
 		var graphic = document.getElementById('graphic');
 		var table = graphic.getContext("2d");
@@ -130,6 +151,7 @@
 		graphic.height = data.n*40;
 		table.font = "20px Courier";
 		table.lineWidth = 2;
+
 		for(var s = 1; s<=data.n; s++){
 			table.moveTo(s*40,0);
 			table.lineTo(s*40,data.n*40);
@@ -137,51 +159,25 @@
 			table.lineTo(data.n*40,s*40);
 			table.stroke();
 		}
-		//=================fillColor==================
-		for(var r = 0; r < data.n; r++){
-			for(var c = 0; c < data.n; c++){
-				if(r === data.targ.r && c === data.targ.c){
-					table.fillStyle = "#33cc33";
-					table.fillRect(40*c,40*r,40*(c+1),40*(r+1));
-				}
-				else if( r === data.bobr && c === data.bobc){
-					table.fillStyle = "#80dfff";
-					table.fillRect(40*c,40*r,40*(c+1),40*(r+1));
-				}
-				else{
-					switch (data.b[r][c]) {
-						case 1:
-							table.fillStyle = "#d24dff";
-							break;
-						case 2:
-							table.fillStyle = "#9900cc";
-							break;
-						case 3:
-							table.fillStyle = "#39004d";
-							break;
-						default:
-							table.fillStyle = "#ebb3ff";
+		//=================fillAnimal==================
+		zebra.onload = function () {
+			for(var r = 0; r < data.n; r++){
+				for(var c = 0; c < data.n; c++){
+					if(r === data.targ.r && c === data.targ.c){
+						table.drawImage(listTarg[data.targWt],40*c+3,40*r+3,34,34);
 					}
-					table.fillRect(40*c,40*r,40*(c+1),40*(r+1));
+					else if( r === data.bobr && c === data.bobc){
+						table.drawImage(listBob[data.dir],40*c+3,40*r+3,34,34);
+					}
+					else{
+						if(data.b[r][c]>0)
+							table.drawImage(listWage[data.b[r][c]-1],40*c+3,40*r+3,34,34);
+					}
 				}
 			}
 		}
 		table.stroke();
-		//=================fillData===========================
-		table.strokeStyle = "#6666ff";
-		for(var r = 0; r < data.n; r++){
-			for(var c = 0; c < data.n; c++){
-				if(r === data.targ.r && c === data.targ.c)
-					table.strokeText(listTarg[data.targWt-1],40*c+13,40*r+27);
-				else if( r === data.bobr && c === data.bobc)
-					table.strokeText(direction[data.dir],40*c+13,40*r+27);
-				else
-					table.strokeText(listWage[data.b[r][c]],40*c+13,40*r+27);
-			}
-		}
-
 		document.getElementById("moves").innerHTML = "Moves: "+brd.getMoves();
-
 	}
 
 	window.onload = function(){
