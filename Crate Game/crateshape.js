@@ -149,7 +149,6 @@
 		var table = graphic.getContext("2d");
 		graphic.width = data.n*40;
 		graphic.height = data.n*40;
-		table.font = "20px Courier";
 		table.lineWidth = 2;
 
 		for(var s = 1; s<=data.n; s++){
@@ -163,16 +162,14 @@
 		zebra.onload = function () {
 			for(var r = 0; r < data.n; r++){
 				for(var c = 0; c < data.n; c++){
-					if(r === data.targ.r && c === data.targ.c){
+					if(r === data.targ.r && c === data.targ.c)
 						table.drawImage(listTarg[data.targWt],40*c+3,40*r+3,34,34);
-					}
-					else if( r === data.bobr && c === data.bobc){
+
+					else if( r === data.bobr && c === data.bobc)
 						table.drawImage(listBob[data.dir],40*c+3,40*r+3,34,34);
-					}
-					else{
-						if(data.b[r][c]>0)
+
+					else if(data.b[r][c]>0)
 							table.drawImage(listWage[data.b[r][c]-1],40*c+3,40*r+3,34,34);
-					}
 				}
 			}
 		}
