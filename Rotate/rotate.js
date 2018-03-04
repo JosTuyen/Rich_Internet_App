@@ -2,26 +2,30 @@
 
 window.onload = function () {
   var graphic = document.getElementById('graphic');
-	var ctx = graphic.getContext("2d");
+  var ctx = graphic.getContext("2d");
   var img = new Image();
-  img.src = 'giraffe.png';
-  ctx.lineWidth = 5;
-  ctx.height = 500;
-  ctx.width = 500;
-  ctx.fillRect = (20,20,50,50);
-  //ctx.lineTo(300,300);
-  //ctx.lineTo(200,300);
-  ctx.strokeStyle = "#ff3333";
+  var state = true;
+  img.src = "ace.jpg";
+  graphic.height = 450;
+  graphic.width = 450;
+  ctx.lineWidth = 3;
+  ctx.fillStyle = "#ff80ff";
+  ctx.fillRect(0,0,450,450);
+  ctx.strokeRect(150,150,150,150);
+  ctx.clearRect(150,150,150,150);
 
   img.onload = function () {
-    ctx.drawImage(img,200,200);
-    ctx.beginPath();
-    ctx.moveTo(200,200);
-    ctx.lineTo(300,200);
-    ctx.stroke();
-  }
-  ctx.moveTo(200,200);
-  ctx.lineTo(300,200);
-  ctx.stroke();
-  document.getElementById('content').innerHTML = "Click";
+    ctx.drawImage(img,185,165,80,120);
+    document.onclick = function () {
+      state = !state;
+      var rotating = setInterval(function () {
+        ctx.clearRect(185,165,80,120);
+        ctx.translate(225,225);
+        if(!state) ctx.rotate(Math.PI/180);
+        ctx.translate(-225,-225);
+        ctx.drawImage(img,185,165,80,120);
+        if(state)  clearInterval(rotating);
+      },6);
+    };
+  };
 };
