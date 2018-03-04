@@ -6,13 +6,24 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<style>
+			#title{
+				text-align:center;
+				font-family: "Comic Sans MS";
+				font-size: 50px;
+				color: #40A25D;
+				padding: 0;
+				margin: 0;
+			}
 			#content{
 				position: fixed;
 				float: left;
-				max-width: 500px;
-				margin-top: 50px;
+				max-width: 450px;
+				margin-top: 150px;
 				padding: 0px;
 				font-size: 18px;
+				color: #C1C5E2;
+				font-weight: bold;
+				font-family: verdana;
 			}
 			#graphic{
 				display: block;
@@ -24,20 +35,22 @@
 			}
 		</style>
 	</head>
-	<body>
-		<h1 style="text-align:center">Crate Board</h1>
+	<body background="/Libraries/Pictures/elephant_hiquality.jpg">
+		<p id="title" >ANIMAL KINGDOM</p>
 		<p id="content">
 			<b>Rules:</b><br>
-			Push the target to the origin position of pusher.<br>
-			Press:  w :up	;	d :right ; s :down ; a :left ; x :explode<br>
-			One move or one turn costs 1 move<br>
-			One explode costs 100 scores<br>
-			The maximum weight which pusher can push is 3<br>
-			The target symbol and weight:<br>
-			A: 1 ; B: 2 ; C: 3<br>
-			The direction of pusher:<br>
-			^: North ; >: East ; v: South ; <: West<br>
-			You can only push the wages on your direction<br>
+			1) The elephant will save endanger species by pushing them to origin place
+			which it appear in the first time<br><br>
+			2) To move elephant you have to press :<br>
+			w :up	;	d :right ; s :down ; a :left ; x :explode<br><br>
+			3) One move or one turn costs 1 move<br>
+			One explode costs 100 moves<br><br>
+			4) Endanger species name and weight:<br>
+			Penguin: 1 ; Zebra: 2 ; Giraffe: 3<br>
+				 Other species name and weight:<br>
+			Snake: 1 ; Gorilla: 2 ; Crocodile: 3<br>
+			The max weight which you can push is 3<br>
+			Press any key when you push the target to the origin to end<br>
 		</p>
 		<h2 id="txt" style = "text-align:center">Time: 0:00:00</h2>
 		<h2 id="moves" style="text-align:center"></h2>

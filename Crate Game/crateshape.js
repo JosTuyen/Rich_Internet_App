@@ -131,6 +131,7 @@
 		var goril = new Image();
 		var pengu = new Image();
 		var snake = new Image();
+		var background = new Image();
 		zebra.src = '/Libraries/Pictures/zebra.png';
 		croco.src = '/Libraries/Pictures/crocodile.png';
 		eleph_u.src = '/Libraries/Pictures/elephant_u.png';
@@ -141,6 +142,7 @@
 		goril.src = '/Libraries/Pictures/gorilla.png';
 		pengu.src = '/Libraries/Pictures/penguin.png';
 		snake.src = '/Libraries/Pictures/snake.png';
+		background.src = "/Libraries/Pictures/bkgr_rain.jpg";
 		var listBob = [eleph_u, eleph_r, eleph_d, eleph_l];
 		var listWage = [snake, goril, croco];
 		var listTarg = ["", pengu, zebra, giraf];
@@ -159,7 +161,8 @@
 			table.stroke();
 		}
 		//=================fillAnimal==================
-		zebra.onload = function () {
+		background.onload = function () {
+			table.drawImage(background,0,0,graphic.width,graphic.height);
 			for(var r = 0; r < data.n; r++){
 				for(var c = 0; c < data.n; c++){
 					if(r === data.targ.r && c === data.targ.c)
@@ -172,8 +175,9 @@
 							table.drawImage(listWage[data.b[r][c]-1],40*c+3,40*r+3,34,34);
 				}
 			}
+			table.stroke();
 		}
-		table.stroke();
+
 		document.getElementById("moves").innerHTML = "Moves: "+brd.getMoves();
 	}
 
