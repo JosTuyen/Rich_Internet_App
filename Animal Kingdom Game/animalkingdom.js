@@ -129,9 +129,6 @@ function showBoard(data) {
 	var zebra = new Image();
 	var croco = new Image();
 	var eleph_u = new Image();
-	var eleph_r = new Image();
-	var eleph_d = new Image();
-	var eleph_l = new Image();
 	var giraf = new Image();
 	var goril = new Image();
 	var pengu = new Image();
@@ -140,15 +137,11 @@ function showBoard(data) {
 	zebra.src = '/Libraries/Pictures/zebra.png';
 	croco.src = '/Libraries/Pictures/crocodile.png';
 	eleph_u.src = '/Libraries/Pictures/elephant_u.png';
-	eleph_r.src = '/Libraries/Pictures/elephant_r.png';
-	eleph_d.src = '/Libraries/Pictures/elephant_d.png';
-	eleph_l.src = '/Libraries/Pictures/elephant_l.png';
 	giraf.src = '/Libraries/Pictures/giraffe.png';
 	goril.src = '/Libraries/Pictures/gorilla.png';
 	pengu.src = '/Libraries/Pictures/penguin.png';
 	snake.src = '/Libraries/Pictures/snake.png';
 	background.src = "/Libraries/Pictures/bkgr_rain.jpg";
-	var listBob = [eleph_u, eleph_r, eleph_d, eleph_l];
 	var listWage = [snake, goril, croco];
 	var listTarg = ["", pengu, zebra, giraf];
 	//==================drawTable================
@@ -190,6 +183,7 @@ window.onload = function(){
 	var start = true;
 	var t;
 	var count = 0;
+  if(document.readyState == 'complete')
 	document.onkeypress =  function (ev){
 		if(start){
 			timeCount();
