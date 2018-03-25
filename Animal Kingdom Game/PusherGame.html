@@ -17,11 +17,11 @@
 			#content{
 				position: fixed;
 				float: left;
-				max-width: 450px;
-				margin-top: 50px;
+				max-width: 400px;
+				margin-top: 100px;
 				padding: 0px;
 				font-size: 16px;
-				color: #C1C5E2;
+				color: black;
 				font-weight: bold;
 				font-family: verdana;
 			}
@@ -34,26 +34,27 @@
 				border:5px solid #330033;
 			}
 		</style>
+	<script src="/script/utils.js"></script>
 	</head>
-	<body background="/Libraries/Pictures/starry_sky.jpg">
+	<body background="/Libraries/Pictures/wood.jpg">
 		<p id="title" >ANIMAL KINGDOM</p>
 		<p id="content">
 			<b>Rules:</b><br>
 			1) The elephant will save endanger species by pushing them to origin place
 			which it appear in the first time<br><br>
 			2) To move elephant you have to press :<br>
-			w :up	;	d :right ; s :down ; a :left ; x :explode<br><br>
+			w :up	;	d :right ; s :down ; a :left ; <br>x :explode<br><br>
 			3) One move or one turn costs 1 move<br>
 			One explode costs 100 moves<br><br>
-			4) Endanger species name and weight:<br>
+			4) - Endanger species name and weight:<br>
 			Penguin: 1 ; Zebra: 2 ; Giraffe: 3<br>
-				 Other species name and weight:<br>
-			Snake: 1 ; Gorilla: 2 ; Crocodile: 3<br>
-			The max weight which you can push is 3<br>
+				 - Other species name and weight:<br>
+			Snake: 1 ; Gorilla: 2 ; Crocodile: 3<br><br>
+			5) The max weight which you can push is 3<br>
 			Press any key when you push the target to the origin to end<br>
 		</p>
-		<h2 id="txt" style = "text-align:center; color:white">Time: 0:00:00</h2>
-		<h2 id="moves" style="text-align:center; color:white"></h2>
+		<h2 id="txt" style = "text-align:center; color:black">Time: 0:00:00</h2>
+		<h2 id="moves" style="text-align:center; color:black"></h2>
 		<!-- <script src="crateboard2.js"></script> -->
 		<script src="animalkingdom.js"></script>
 		<canvas id="graphic"></canvas>

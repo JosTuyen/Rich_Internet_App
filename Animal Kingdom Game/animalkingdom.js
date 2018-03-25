@@ -1,9 +1,9 @@
 "use strict";
+
 class Game {
   constructor() {
     //n rand 8...12: pusher rand bottomrow facing N
 		//tgt edge
-		//square content is weight :0,1,2,3 with p=0,2,1,1
 		this.state = 0;
 		this.moves = 0;
 		//bob direction Up - Right - Down - Left
@@ -115,7 +115,6 @@ class Game {
 }
 
 function rotate(ctx, img, x, y, w, h, dir) {
-	//ctx.clearRect(x,y,w,h);
 	ctx.save();
 	ctx.translate(x+w/2,y+h/2);
 	ctx.rotate(Math.PI/2*dir);
@@ -177,7 +176,7 @@ function showBoard(data) {
 	}
 	document.getElementById("moves").innerHTML = "Moves: "+data.moves;
 }
-
+//===================Running Time==================
 window.onload = function(){
 	var game = new Game();
 	var start = true;
